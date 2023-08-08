@@ -1,0 +1,10 @@
+.idea/
+
+.env
+
+venv/
+
+
+postgresql/
+redis_s3/
+esdata_s3/
