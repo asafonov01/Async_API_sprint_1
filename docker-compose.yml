@@ -47,8 +47,8 @@ services:
   etl:
     container_name: 'etl_prod'
     build:
-      context: ./etl_app/
-      dockerfile: etl.Dockerfile
+      context: ./etl/
+      dockerfile: dev.etl.Dockerfile
     environment:
       DB_NAME: ${DB_NAME}
       DB_USER: ${DB_USER}
