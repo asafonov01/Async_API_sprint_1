@@ -1,5 +1,0 @@
-psycopg2-binary
-elasticsearch
-elasticsearch_dsl
-pydantic
-redis
