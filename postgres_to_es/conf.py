@@ -12,7 +12,7 @@ logger = logging.getLogger(__name__)
 
 DB_TABLES = ['film_work', 'genre', 'person']
 BATCH_SIZE = 100
-SLEEP_TIME = 1
+SLEEP_TIME = 30
 
 
 class PostgresConfig(BaseModel):
@@ -34,12 +34,12 @@ class RedisConfig(BaseModel):
 
 
 PSQL_DSN = {
-        'dbname': os.environ.get('POSTGRES_DB'),
-        'user': os.environ.get('POSTGRES_USER'),
-        'password': os.environ.get('POSTGRES_PASSWORD'),
-        'host': os.environ.get('POSTGRES_HOST'),
-        'port': os.environ.get('POSTGRES_PORT'),
-    }
+    'dbname': os.environ.get('POSTGRES_DB'),
+    'user': os.environ.get('POSTGRES_USER'),
+    'password': os.environ.get('POSTGRES_PASSWORD'),
+    'host': os.environ.get('POSTGRES_HOST'),
+    'port': os.environ.get('POSTGRES_PORT'),
+}
 
 
 ES_DSN = {
