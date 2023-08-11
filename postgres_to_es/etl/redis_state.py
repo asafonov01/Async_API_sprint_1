@@ -1,11 +1,27 @@
+from abc import ABC, abstractmethod
 from datetime import datetime
 
 import backoff
-from conf import BACKOFF_CONFIG, DB_TABLES
 from redis import Redis
 
+from core.conf import BACKOFF_CONFIG, DB_TABLES
 
-class RedisState:
+
+class BaseState(ABC):
+    @abstractmethod
+    def get_latest_modified(self, table_name: str) -> str:
+        ...
+
+    @abstractmethod
+    def set_latest_modified(
+        self,
+        table_name: str,
+        latest_modified: str
+    ) -> None:
+        ...
+
+
+class RedisState(BaseState):
     def __init__(self, client: Redis) -> None:
         self.redis_client = client
 

@@ -6,5 +6,5 @@ while [[ "$(curl -s -o /dev/null -w ''%{http_code}'' es_movies:9200)" != "200" ]
 
 curl -XPUT http://es_movies:9200/movies -H 'Content-Type: application/json' -d @movies.json
 
-python main.py
+python run.py
 

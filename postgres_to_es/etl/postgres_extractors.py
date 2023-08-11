@@ -1,12 +1,41 @@
+from abc import ABC, abstractclassmethod
 from typing import Dict, List
 
 import backoff
-from conf import BACKOFF_CONFIG
-from models import ElasticFilmwork, ExtractIndex
 from psycopg2.extras import DictCursor
 
+from core.conf import BACKOFF_CONFIG
+from models.general import ExtractedIndex
+from models.movies import Movies
 
-class PostgresExtractor:
+
+class BasePostgresExtractor(ABC):
+
+    @abstractclassmethod
+    def get_initial_indeces(
+        self,
+        name_table: str,
+        last_modified: str
+    ):
+        ...
+
+    @abstractclassmethod
+    def get_joined_indeces(
+        self,
+        name_table: str,
+        array_indeces: List[ExtractedIndex]
+    ):
+        ...
+
+    @abstractclassmethod
+    def get_full_merged_query(
+        self,
+        array_indeces: List[ExtractedIndex]
+    ) -> List[Dict]:
+        ...
+
+
+class FilmworkPostgresExtractor(BasePostgresExtractor):
 
     def __init__(self, cursor: DictCursor, batch_size: int) -> None:
         self._cursor = cursor
@@ -17,7 +46,7 @@ class PostgresExtractor:
         self,
         name_table: str,
         last_modified: str
-    ) -> List[ExtractIndex]:
+    ) -> List[ExtractedIndex]:
         """Получение списка индексов по названию таблицы.
         Данные отфильтрованы по дате обновления.
         Данные отсортированы по возрастанию даты обновления.
@@ -29,19 +58,14 @@ class PostgresExtractor:
             ORDER BY modified
             LIMIT {self._batch_size};
         """)
-        return [ExtractIndex(**i) for i in self._cursor.fetchall()]
+        return [ExtractedIndex(**i) for i in self._cursor.fetchall()]
 
     @backoff.on_exception(**BACKOFF_CONFIG)
-    def get_film_work_indeces(
+    def get_joined_indeces(
         self,
         name_table: str,
-        array_indeces: List[ExtractIndex]
-    ) -> List[ExtractIndex]:
-        """Получение списка индексов фильмов.
-        Получаем с помощью индексов промежуточных таблиц.
-        Данные отсортированы по возрастанию даты обновления.
-        Метод недоступен для индексов film_work.
-        """
+        array_indeces: List[ExtractedIndex]
+    ) -> List[ExtractedIndex]:
         string_indeces: str = ', '.join(
             f"'{index.id}'" for index in array_indeces
         )
@@ -54,15 +78,13 @@ class PostgresExtractor:
             ORDER BY fw.modified
             LIMIT {self._batch_size};
         """)
-        return [ExtractIndex(**i) for i in self._cursor.fetchall()]
+        return [ExtractedIndex(**i) for i in self._cursor.fetchall()]
 
     @backoff.on_exception(**BACKOFF_CONFIG)
     def get_full_merged_query(
         self,
-        array_indeces: List[ExtractIndex]
+        array_indeces: List[ExtractedIndex]
     ) -> List[Dict]:
-        """Полный запрос с аггрегацией, пригодный для elastic индекса movies.
-        """
         film_work_string_indeces: str = ', '.join(
             f"'{index.id}'" for index in array_indeces
         )
@@ -89,9 +111,15 @@ class PostgresExtractor:
             ORDER BY fw.modified
             LIMIT {self._batch_size};
         """)
-        # очень тяжело работать с парсингом генераторов
-        # особенно при получении начальных индексов, их все равно придется мержить
         return [
-            ElasticFilmwork(**data).model_dump()
+            Movies(**data).model_dump()
             for data in self._cursor.fetchall()
         ]
+
+
+class GenrePostgresExtractor(BasePostgresExtractor):
+    pass
+
+
+class PersonPostgresExtractor(BasePostgresExtractor):
+    pass
