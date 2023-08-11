@@ -5,13 +5,13 @@ import backoff
 from dotenv import load_dotenv
 from pydantic import BaseModel
 
-
 load_dotenv()
 
 logger = logging.getLogger(__name__)
 
 DB_TABLES = ['film_work', 'genre', 'person']
-BATCH_SIZE = 100
+ES_INDECES = ['movies', ]  # movies, genres, persons
+BATCH_SIZE = 10
 SLEEP_TIME = 1
 
 
@@ -37,19 +37,19 @@ PSQL_DSN = {
     'dbname': os.environ.get('POSTGRES_DB'),
     'user': os.environ.get('POSTGRES_USER'),
     'password': os.environ.get('POSTGRES_PASSWORD'),
-    'host': os.environ.get('POSTGRES_HOST'),
+    'host': 'localhost',  # TEST in localhost
     'port': os.environ.get('POSTGRES_PORT'),
 }
 
 
 ES_DSN = {
-    'host': os.environ.get('ES_HOST'),
-    'port': os.environ.get('ES_PORT'),
+    'host': 'localhost',  # TEST
+    'port': 9200,
 }
 
 REDIS_DSN = {
-    'host': os.environ.get('REDIS_HOST'),
-    'port': os.environ.get('REDIS_PORT'),
+    'host': 'localhost',  # TEST
+    'port': 6379,
 }
 
 BACKOFF_CONFIG = {
