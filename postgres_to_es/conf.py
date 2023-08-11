@@ -12,7 +12,7 @@ logger = logging.getLogger(__name__)
 
 DB_TABLES = ['film_work', 'genre', 'person']
 BATCH_SIZE = 100
-SLEEP_TIME = 30
+SLEEP_TIME = 1
 
 
 class PostgresConfig(BaseModel):
