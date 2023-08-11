@@ -1,12 +1,5 @@
-from typing import Optional
-
-from uuid import UUID
-from pydantic import BaseModel
-
-from .base import BaseOrjsonModel
+from .base import BaseMoviesModel
 
 
-class Genre(BaseModel, BaseOrjsonModel.Config):
-    id: UUID
+class Genre(BaseMoviesModel):
     name: str
-    description: Optional[str] = ''

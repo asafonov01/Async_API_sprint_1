@@ -1,13 +1,8 @@
-from datetime import date
+from typing import Optional, List, Dict, Any
 
-from uuid import UUID
-from typing import Optional
-from pydantic import BaseModel
-
-from .base import BaseOrjsonModel
+from .base import BaseMoviesModel
 
 
-class Person(BaseModel, BaseOrjsonModel.Config):
-    id: UUID
+class Person(BaseMoviesModel):
     full_name: str
-    birth_date: Optional[date]
+    films: Optional[List[Dict[str, Any]]]
