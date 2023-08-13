@@ -1,10 +1,5 @@
-from typing import Generator, List
-
-from models.movies import Movies
-
-
-def transform(raw_data: List[Movies]) -> Generator[Movies, None, None]:
-    """Добавляем id эластика, чтобы повторяющиеся данные перезаписывались."""
+def transform(raw_data):
     for film in raw_data:
         film['_id'] = film['id']
+        del film['modified']
         yield film

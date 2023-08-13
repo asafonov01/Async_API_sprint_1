@@ -61,17 +61,16 @@ services:
     ports:
       - "6379:6379"
 
-  # TEST NOW
-  # etl_movies:
-  #   build:
-  #     context: ./
-  #     dockerfile: ./postgres_to_es/Dockerfile
-  #   env_file:
-  #   - ./.env
-  #   depends_on:
-  #     - redis_movies
-  #     - psql_movies
-  #     - es_movies
+  etl_movies:
+    build:
+      context: ./
+      dockerfile: ./postgres_to_es/Dockerfile
+    env_file:
+    - ./.env
+    depends_on:
+      - redis_movies
+      - psql_movies
+      - es_movies
 
 volumes:
   elastic_data:

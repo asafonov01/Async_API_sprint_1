@@ -9,9 +9,8 @@ load_dotenv()
 
 logger = logging.getLogger(__name__)
 
-DB_TABLES = ['film_work', 'genre', 'person']
-ES_INDECES = ['movies', ]  # movies, genres, persons
-BATCH_SIZE = 10
+ES_INDECES = ['movies', 'genres', 'persons']
+BATCH_SIZE = 100
 SLEEP_TIME = 1
 
 
@@ -37,19 +36,19 @@ PSQL_DSN = {
     'dbname': os.environ.get('POSTGRES_DB'),
     'user': os.environ.get('POSTGRES_USER'),
     'password': os.environ.get('POSTGRES_PASSWORD'),
-    'host': 'localhost',  # TEST in localhost
+    'host': os.environ.get('POSTGRES_HOST'),
     'port': os.environ.get('POSTGRES_PORT'),
 }
 
 
 ES_DSN = {
-    'host': 'localhost',  # TEST
-    'port': 9200,
+    'host': os.environ.get('ES_HOST'),
+    'port': os.environ.get('ES_PORT'),
 }
 
 REDIS_DSN = {
-    'host': 'localhost',  # TEST
-    'port': 6379,
+    'host': os.environ.get('REDIS_HOST'),
+    'port': os.environ.get('REDIS_PORT'),
 }
 
 BACKOFF_CONFIG = {

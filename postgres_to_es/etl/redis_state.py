@@ -1,27 +1,12 @@
-from abc import ABC, abstractmethod
 from datetime import datetime
 
 import backoff
 from redis import Redis
 
-from core.conf import BACKOFF_CONFIG, DB_TABLES
+from core.conf import BACKOFF_CONFIG, ES_INDECES
 
 
-class BaseState(ABC):
-    @abstractmethod
-    def get_latest_modified(self, table_name: str) -> str:
-        ...
-
-    @abstractmethod
-    def set_latest_modified(
-        self,
-        table_name: str,
-        latest_modified: str
-    ) -> None:
-        ...
-
-
-class RedisState(BaseState):
+class RedisState:
     def __init__(self, client: Redis) -> None:
         self.redis_client = client
 
@@ -44,5 +29,5 @@ class RedisState(BaseState):
 
     def _delete_all_keys(self) -> None:
         """Удаление всех ключей."""
-        for i in DB_TABLES:
+        for i in ES_INDECES:
             self.redis_client.delete(i)
