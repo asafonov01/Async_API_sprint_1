@@ -8,5 +8,5 @@ class UUIDMixin(BaseModel):
     id: UUID
 
 
-class ExtractedIndex(UUIDMixin):
+class DateMixin(BaseModel):
     modified: datetime

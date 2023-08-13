@@ -1,13 +1,12 @@
 from typing import List, Optional
+from .general import UUIDMixin, DateMixin
 
-from .general import UUIDMixin
 
-
-class MoviesPerson(UUIDMixin):
+class PersonsInMovies(UUIDMixin):
     name: str
 
 
-class Movies(UUIDMixin):
+class Movies(UUIDMixin, DateMixin):
     imdb_rating: Optional[float] = None
     genre: List[str]
     title: str
@@ -15,5 +14,5 @@ class Movies(UUIDMixin):
     director: str
     actors_names: Optional[List[str]] = None
     writers_names: Optional[List[str]] = None
-    actors: Optional[List[MoviesPerson]] = None
-    writers: Optional[List[MoviesPerson]] = None
+    actors: Optional[List[PersonsInMovies]] = None
+    writers: Optional[List[PersonsInMovies]] = None
