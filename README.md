@@ -1,3 +1,5 @@
+### [Ссылка на репозиторий](https://github.com/asafonov01/Async_API_sprint_1/)
+
 ### Установка
 - В корневой директории(где docker-compose) создайте файл .env и перенесите туда все из .env.example
 - Создайте виртуальное окружение: python -m venv venv
