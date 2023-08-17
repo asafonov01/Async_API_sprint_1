@@ -1,4 +1,4 @@
-from typing import List, Optional
+from typing import Optional
 
 from .base import BaseMoviesModel
 
@@ -10,7 +10,7 @@ class FilmList(BaseMoviesModel):
 
 class FilmDetail(FilmList):
     description: Optional[str]
-    genre: Optional[List[str]]
+    genre: Optional[list[str]]
     director: Optional[str]
-    writers: Optional[List[dict]]
-    actors: Optional[List[dict]]
+    writers: Optional[list[dict]]
+    actors: Optional[list[dict]]
