@@ -1,8 +1,8 @@
-from typing import Optional, List, Dict, Any
+from typing import Optional, Any
 
 from .base import BaseMoviesModel
 
 
 class Person(BaseMoviesModel):
     full_name: str
-    films: Optional[List[Dict[str, Any]]]
+    films: Optional[list[dict[str, Any]]]

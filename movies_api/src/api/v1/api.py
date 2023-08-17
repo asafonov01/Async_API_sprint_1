@@ -10,7 +10,14 @@ from .dependencies import common_list_params
 router = APIRouter()
 
 
-@router.get('/')
+@router.get(
+    '/',
+    summary='Главная страница',
+    description=(
+        'Получение списка фильмов с пагинацией, отсортированных по рейтингу, '
+        'есть возможность фильтрации по жанрам'
+    )
+)
 async def index(
     film_service: FilmService = Depends(get_film_service),
     params: dict = Depends(common_list_params),
@@ -21,7 +28,14 @@ async def index(
     return films
 
 
-@router.get('/search/')
+@router.get(
+    '/search/',
+    summary='Страница поиска',
+    description=(
+        'Получение списка фильмов с пагинацией, есть возможность '
+        'полнотекстового поиска по оглавлению.'
+    )
+)
 async def film_search(
     film_service: FilmService = Depends(get_film_service),
     params: dict = Depends(common_list_params),
@@ -31,7 +45,13 @@ async def film_search(
     return films
 
 
-@router.get('/{film_id}/')
+@router.get(
+    '/{film_id}/',
+    summary='Детальная страница фильма',
+    description=(
+        'Получение полного описания конкретного фильма по его UUID'
+    )
+)
 async def film_detail(
     film_id: str,
     film_service: FilmService = Depends(get_film_service)
