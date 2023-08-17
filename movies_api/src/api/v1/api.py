@@ -5,7 +5,8 @@ from fastapi import APIRouter, Depends, HTTPException
 from models.film import FilmList, FilmDetail
 from services.film import FilmService, get_film_service
 from .dependencies import common_list_params
-
+from core.config import settings
+from fastapi_cache.decorator import cache
 
 router = APIRouter()
 
@@ -18,6 +19,7 @@ router = APIRouter()
         'есть возможность фильтрации по жанрам'
     )
 )
+@cache(expire=settings.CACHE_EXPIRE)
 async def index(
     film_service: FilmService = Depends(get_film_service),
     params: dict = Depends(common_list_params),
@@ -36,6 +38,7 @@ async def index(
         'полнотекстового поиска по оглавлению.'
     )
 )
+@cache(expire=settings.CACHE_EXPIRE)
 async def film_search(
     film_service: FilmService = Depends(get_film_service),
     params: dict = Depends(common_list_params),
@@ -52,6 +55,7 @@ async def film_search(
         'Получение полного описания конкретного фильма по его UUID'
     )
 )
+@cache(expire=settings.CACHE_EXPIRE)
 async def film_detail(
     film_id: str,
     film_service: FilmService = Depends(get_film_service)
